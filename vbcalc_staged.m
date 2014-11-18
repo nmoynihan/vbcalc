@@ -118,7 +118,7 @@ einstein:=einstein=Simplify[ricci-(1/2)scalar*metric];
 et[[5]] = einstein;
 listeinstein:=Table[If[UnsameQ[einstein[[j,l]],0],{ToString[G[j,l]],einstein[[j,l]]}] ,{j,1,n},{l,1,j}];
 If[printet === 1, Print["Einstein Tensor:"]; Print[TableForm[Partition[DeleteCases[Flatten[listeinstein],Null],2],TableSpacing->{2,2}]];,Null];
-et
+output = et
 ]
 
 End[];
