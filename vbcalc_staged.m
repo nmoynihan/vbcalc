@@ -2,6 +2,7 @@
 
 BeginPackage["VBCalc`"];
 
+version = 0.1;
 
 Begin["`Private`"];
 VB::usage = "VB[metric, coordinates, assumptions] returns a vierbein of a given metric. The metric input must be square and symmetric.";
@@ -121,5 +122,7 @@ et
 ]
 End[];
 
-
+Begin["`Private`"];
+Print["VBCalc ", version, " Loaded and ready."];
+End[];
 EndPackage[];
