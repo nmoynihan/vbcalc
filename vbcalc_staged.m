@@ -5,14 +5,17 @@ BeginPackage["VBCalc`"];
 version = 0.1;
 
 Begin["`Private`"];
+
 VB::usage = "VB[metric, coordinates, assumptions] returns a vierbein of a given metric. The metric input must be square and symmetric.";
 BVector::usage = "BVector[vierbein, assumptions] calculates the vector \!\(\*SuperscriptBox[\(B\), \(d\)]\)=\!\(\*SuperscriptBox[\(\[Epsilon]\), \(abcd\)]\)\!\(\*SubscriptBox[\(\[Omega]\), \(bca\)]\), where \!\(\*SubscriptBox[\(\[Omega]\), \(bca\)]\) is the spin connection.";
 CompareVB::usage = "CompareVB[metric, vierbein1, vierbein2, assumptions] calculates the Lorentz transformation that connects two related vierbeins, of the form \!\(\*SubscriptBox[SuperscriptBox[\(e\), \(a'\)], \(\[Mu]\)]\)=\!\(\*SubscriptBox[SuperscriptBox[\(\[CapitalLambda]\), \(a'\)], \(a\)]\)\!\(\*SubscriptBox[SuperscriptBox[\(e\), \(a\)], \(\[Mu]\)]\). If the two vierbeins are not related by a Lorentz transform, (i.e. det(\[CapitalLambda]) is not +1 or -1, or \!\(\*SuperscriptBox[\(\[CapitalLambda]\), \(T\)]\)\[Eta]\[CapitalLambda] != \[Eta]) then an error is printed.";
 CalcET::usage = "CalcET[metric, coordinates, print = 1 or 0, assumptions] returns a vector containing the Affine Connection, Riemann tensor, Ricci Tensor, Scalar Curvature and Einstein Tensor. Setting print = 1 also prints the non-zero components of each of these.";
+
 End[];
 
 
 Begin["`Private`"];
+
 VB[metric_, cd_, as_] :=
 Module[{i,k,m,B,n,L},
 If[Dimensions[metric][[1]] === Dimensions[metric][[2]] ,Null,Print["The metric input is not square. Only square matrices can be processed"];Abort[]]; (* Check if square *)
@@ -52,18 +55,22 @@ Print["From this vierbein, we recover the line Element = ", FactorTerms[le,dcoor
 If[latex ===1,Print["Line Element: ", ToString[FactorTerms[le,dcoord], TeXForm]],Null];
 FullSimplify[vb, Assumptions-> as]
 ];
+
 End[];
 
 
 Begin["`Private`"];
+
 BVector[vb_, as_] := Module[{i},
 B =Table[Sum[LeviCivitaTensor[4][[a,b,c,i]]eta[[b,k]]vb[[k,\[Lambda]]]D[inversevb[[\[Lambda],c]],coord[[a]]],{a,4},{b,4},{c,4},{\[Lambda],4},{k,4}],{i,1,4}]; (* Calculate the B0 curvature term *)
 FullSimplify[B, Assumptions-> as]
 ]
+
 End[];
 
 
 Begin["`Private`"];
+
 CompareVB[metric_, vb1_, vb2_, as_] :=
 Module[{i,k,m},
 L = vb1.metric.Transpose[vb2];
@@ -88,11 +95,13 @@ Print["\!\(\*SuperscriptBox[\(\[CapitalLambda]\), \(T\)]\)\[Eta]\[CapitalLambda]
 If [check=== eta \[And]  dt ===1 \[Or] dt === -1, Print["This looks like a valid Lorentz Transformation"], Print["Can't compute a valid Lorentz Transformation, vierbeins may not be equivalent."]; Abort[]];
 L2
 ]
+
 End[];
 
 
 
 Begin["`Private`"];
+
 CalcET[metric_, coord_, print_, as_] := Module[{affine, riemann},
 inversemetric =Inverse[metric];
 affine = Simplify[Table[(1/2)*Sum[(inversemetric[[i,s]])*(D[metric[[s,j]],coord[[k]] ]+D[metric[[s,k]],coord[[j]] ]-D[metric[[j,k]],coord[[s]] ]),{s,1,n}],{i,1,n},{j,1,n},{k,1,n}] ];
@@ -120,9 +129,13 @@ listeinstein:=Table[If[UnsameQ[einstein[[j,l]],0],{ToString[G[j,l]],einstein[[j,
 If[print === 1, Print["Einstein Tensor:"]; Print[TableForm[Partition[DeleteCases[Flatten[listeinstein],Null],2],TableSpacing->{2,2}]];,Null];
 et
 ]
+
 End[];
 
 Begin["`Private`"];
+
 Print["VBCalc ", version, " Loaded and ready."];
+
 End[];
+
 EndPackage[];
