@@ -14,8 +14,8 @@ End[];
 Begin["`Private`"];
 VB[metric_, cd_, as_] :=
 Module[{i,k,m,B,n,L},
-If[Dimensions[metric][[1]] === Dimensions[metric][[2]] ,,Print["The metric input is not square. Only square matrices can be processed"];Abort[]]; (* Check if square *)
-If[SymmetricMatrixQ[metric],,Print["The metric input is not symmetric, please input a square, symmetric matrix."]; Abort[]]; (* Check if Symmetric *)
+If[Dimensions[metric][[1]] === Dimensions[metric][[2]] ,Null,Print["The metric input is not square. Only square matrices can be processed"];Abort[]]; (* Check if square *)
+If[SymmetricMatrixQ[metric],Null,Print["The metric input is not symmetric, please input a square, symmetric matrix."]; Abort[]]; (* Check if Symmetric *)
 B = metric;
 B[[1,1]] = -B[[1,1]];
 n = Dimensions[B][[1]];
@@ -44,11 +44,11 @@ eta = ({
 coord = cd;
 result = L.eta.vb- metric//FullSimplify;
 newmetric = L.eta.vb//FullSimplify;
-(* If[result ===Table[0,{n},{n}], Print["This vierbein passes the test and looks to be correct:"], Print["This vierbein did not pass the test and may be incorrect. (DEBUG:) Result = ", MatrixForm[result]]]; *)
+(* If[result ===Table[0,{n},{n}],Print["This vierbein passes the test and looks to be correct:"],Print["This vierbein did not pass the test and may be incorrect. (DEBUG:) Result = ", MatrixForm[result]]]; *)
 dcoord="d"<>ToString[#]&/@coord//ToExpression/@#& ;
 le = dcoord.newmetric.dcoord//FullSimplify;
 Print["From this vierbein, we recover the line Element = ", FactorTerms[le,dcoord]];
-If[latex ===1,Print["Line Element: ", ToString[FactorTerms[le,dcoord], TeXForm]], ];
+If[latex ===1,Print["Line Element: ", ToString[FactorTerms[le,dcoord], TeXForm]],Null];
 FullSimplify[vb, Assumptions-> as]
 ];
 End[];
@@ -97,7 +97,7 @@ inversemetric =Inverse[metric];
 affine = Simplify[Table[(1/2)*Sum[(inversemetric[[i,s]])*(D[metric[[s,j]],coord[[k]] ]+D[metric[[s,k]],coord[[j]] ]-D[metric[[j,k]],coord[[s]] ]),{s,1,n}],{i,1,n},{j,1,n},{k,1,n}] ];
 et[[1]] = affine;
 listaffine:=Table[If[UnsameQ[affine[[i,j,k]],0],{ToString[\[CapitalGamma][i,j,k]],affine[[i,j,k]]}] ,{i,1,n},{j,1,n},{k,1,j}];
-If[print === 1, Print["Affine Connection:"]; Print[TableForm[Partition[DeleteCases[Flatten[listaffine],Null],2],TableSpacing->{2,2}]];,];
+If[print === 1,Print["Affine Connection:"]; Print[TableForm[Partition[DeleteCases[Flatten[listaffine],Null],2],TableSpacing->{2,2}]];,Null];
 riemann:=riemann=Simplify[Table[
 D[affine[[i,j,l]],coord[[k]] ]-D[affine[[i,j,k]],coord[[l]] ]+
 Sum[affine[[s,j,l]] affine[[i,k,s]]-affine[[s,j,k]] affine[[i,l,s]],
@@ -105,18 +105,18 @@ Sum[affine[[s,j,l]] affine[[i,k,s]]-affine[[s,j,k]] affine[[i,l,s]],
 {i,1,n},{j,1,n},{k,1,n},{l,1,n}] ];
 et[[2]] = riemann;
 listriemann:=Table[If[UnsameQ[riemann[[i,j,k,l]],0],{ToString[R[i,j,k,l]],riemann[[i,j,k,l]]}] ,{i,1,n},{j,1,n},{k,1,n},{l,1,k-1}];
-If[print === 1, Print["Riemann Tensor:"]; Print[TableForm[Partition[DeleteCases[Flatten[listriemann],Null],2],TableSpacing->{2,2}]];,];
+If[print === 1, Print["Riemann Tensor:"]; Print[TableForm[Partition[DeleteCases[Flatten[listriemann],Null],2],TableSpacing->{2,2}]];,Null];
 ricci:=ricci=Simplify[Table[Sum[riemann[[i,j,i,l]],{i,1,n}],{j,1,n},{l,1,n}] ];
 et[[3]] = ricci;
 listricci:=Table[If[UnsameQ[ricci[[j,l]],0],{ToString[R[j,l]],ricci[[j,l]]}] ,{j,1,n},{l,1,j}];
-If[print === 1, Print["Ricci Tensor:"];Print[TableForm[Partition[DeleteCases[Flatten[listricci],Null],2],TableSpacing->{2,2}]];,];
+If[print === 1, Print["Ricci Tensor:"];Print[TableForm[Partition[DeleteCases[Flatten[listricci],Null],2],TableSpacing->{2,2}]];,Null];
 scalar=Simplify[Sum[inversemetric[[i,j]]ricci[[i,j]],{i,1,n},{j,1,n}]];
 et[[4]] = scalar;
 If[print === 1, Print["Scalar Curvature, R =", scalar];,];
 einstein:=einstein=Simplify[ricci-(1/2)scalar*metric];
 et[[5]] = einstein;
 listeinstein:=Table[If[UnsameQ[einstein[[j,l]],0],{ToString[G[j,l]],einstein[[j,l]]}] ,{j,1,n},{l,1,j}];
-If[print === 1, Print["Einstein Tensor:"]; Print[TableForm[Partition[DeleteCases[Flatten[listeinstein],Null],2],TableSpacing->{2,2}]];,];
+If[print === 1, Print["Einstein Tensor:"]; Print[TableForm[Partition[DeleteCases[Flatten[listeinstein],Null],2],TableSpacing->{2,2}]];,Null];
 et
 ]
 End[];
