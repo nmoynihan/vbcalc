@@ -4,15 +4,10 @@ BeginPackage["VBCalc`"];
 
 version = 0.1;
 
-Begin["`Private`"];
-
 VB::usage = "VB[metric, coordinates, assumptions] returns a vierbein of a given metric. The metric input must be square and symmetric.";
 BVector::usage = "BVector[vierbein, assumptions] calculates the vector \!\(\*SuperscriptBox[\(B\), \(d\)]\)=\!\(\*SuperscriptBox[\(\[Epsilon]\), \(abcd\)]\)\!\(\*SubscriptBox[\(\[Omega]\), \(bca\)]\), where \!\(\*SubscriptBox[\(\[Omega]\), \(bca\)]\) is the spin connection.";
 CompareVB::usage = "CompareVB[metric, vierbein1, vierbein2, assumptions] calculates the Lorentz transformation that connects two related vierbeins, of the form \!\(\*SubscriptBox[SuperscriptBox[\(e\), \(a'\)], \(\[Mu]\)]\)=\!\(\*SubscriptBox[SuperscriptBox[\(\[CapitalLambda]\), \(a'\)], \(a\)]\)\!\(\*SubscriptBox[SuperscriptBox[\(e\), \(a\)], \(\[Mu]\)]\). If the two vierbeins are not related by a Lorentz transform, (i.e. det(\[CapitalLambda]) is not +1 or -1, or \!\(\*SuperscriptBox[\(\[CapitalLambda]\), \(T\)]\)\[Eta]\[CapitalLambda] != \[Eta]) then an error is printed.";
 CalcET::usage = "CalcET[metric, coordinates, print = 1 or 0, assumptions] returns a vector containing the Affine Connection, Riemann tensor, Ricci Tensor, Scalar Curvature and Einstein Tensor. Setting print = 1 also prints the non-zero components of each of these.";
-
-End[];
-
 
 Begin["`Private`"];
 
