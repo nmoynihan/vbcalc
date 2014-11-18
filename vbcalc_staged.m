@@ -97,7 +97,7 @@ End[];
 
 Begin["`Private`"];
 
-CalcET[metric_, coord_, printet_, as_] := Module[{affine, riemann, inversemetric, },
+CalcET[metric_, coord_, printet_, as_] := Module[{affine, riemann, inversemetric, et, scalar},
 inversemetric = Inverse[metric];
 affine = Simplify[Table[(1/2)*Sum[(inversemetric[[i,s]])*(D[metric[[s,j]],coord[[k]] ]+D[metric[[s,k]],coord[[j]] ]-D[metric[[j,k]],coord[[s]] ]),{s,1,n}],{i,1,n},{j,1,n},{k,1,n}] ];
 et[[1]] = affine;
