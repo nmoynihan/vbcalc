@@ -112,7 +112,7 @@ listricci:=Table[If[UnsameQ[ricci[[j,l]],0],{ToString[R[j,l]],ricci[[j,l]]}] ,{j
 If[print === 1, Print["Ricci Tensor:"];Print[TableForm[Partition[DeleteCases[Flatten[listricci],Null],2],TableSpacing->{2,2}]];,Null];
 scalar=Simplify[Sum[inversemetric[[i,j]]ricci[[i,j]],{i,1,n},{j,1,n}]];
 et[[4]] = scalar;
-If[print === 1, Print["Scalar Curvature, R =", scalar];,];
+If[print === 1, Print["Scalar Curvature, R =", scalar];,Null];
 einstein:=einstein=Simplify[ricci-(1/2)scalar*metric];
 et[[5]] = einstein;
 listeinstein:=Table[If[UnsameQ[einstein[[j,l]],0],{ToString[G[j,l]],einstein[[j,l]]}] ,{j,1,n},{l,1,j}];
