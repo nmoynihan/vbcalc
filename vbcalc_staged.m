@@ -2,6 +2,10 @@
 
 BeginPackage["VBCalc`"];
 
+(* 
+	@TODO: Make useable for dimensions > 4.
+	@TODO: Add More Assumptions variables 
+*)
 version = 0.2;
 
 VB::usage = "VB[metric, coordinates, assumptions] returns a vierbein of a given metric. The metric input must be square and symmetric.";
