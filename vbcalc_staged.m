@@ -23,11 +23,11 @@ For[k=1,k<= n, k++,
 L[[k,k]]= Sqrt[B [[k,k]]-\!\(
 \*UnderoverscriptBox[\(\[Sum]\), \(m = 1\), \(k - 1\)]\(
 \*SuperscriptBox[\((L[\([k, m]\)])\), \(2\)]*If[m == 1, \(-1\), 1]\)\)];
-(* If[k\[Equal]1,Print["Debug: ", (B [[i,k]]-\!\(
-\*UnderoverscriptBox[\(\[Sum]\), \(m = 1\), \(k - 1\)]\(L[\([i, m]\)]L[\([k, m]\)]\)\))/L[[k,k]] ]; Print["Debug k: ", k ],1]; *)
+(* If[k==1,Print["Debug: ", (B [[i,k]]-\!\(
+\*UnderoverscriptBox[\(\[Sum]\), \(m = 1\), \(k - 1\)]\(L[\([i, m]\)] L[\([k, m]\)]\)\))/L[[k,k]] ]; Print["Debug k: ", k ],1]; *)
 For[i=k+1,i<= n, i++,
-(* If[k\[Equal]1,Print["Debug: ", (B [[i,k]]-\!\(
-\*UnderoverscriptBox[\(\[Sum]\), \(m = 1\), \(k - 1\)]\(L[\([i, m]\)]L[\([k, m]\)]*If[m \[Equal] 1, \(-1\), 1]\)\))/L[[k,k]] ]; Print["Debug k: ", k ],1]; *)
+(* If[k==1,Print["Debug: ", (B [[i,k]]-\!\(
+\*UnderoverscriptBox[\(\[Sum]\), \(m = 1\), \(k - 1\)]\(L[\([i, m]\)] L[\([k, m]\)]*If[m == 1, \(-1\), 1]\)\))/L[[k,k]] ]; Print["Debug k: ", k ],1]; *)
 L[[i,k]]=If[k==1,-1,1] (B [[i,k]]-\!\(
 \*UnderoverscriptBox[\(\[Sum]\), \(m = 1\), \(k - 1\)]\(L[\([i, m]\)] L[\([k, m]\)]*If[m == 1, \(-1\), 1]\)\))/L[[k,k]]
 ]
@@ -56,8 +56,14 @@ End[];
 
 Begin["`Private`"];
 
+<<<<<<< HEAD
+BVector[vb_, coords_, as_] := Module[{i,inversevb},
+inversevb = Inverse[vb];
+B =Table[Sum[LeviCivitaTensor[4][[a,b,c,i]]eta[[b,k]]vb[[k,\[Lambda]]]D[inversevb[[\[Lambda],c]],coords[[a]]],{a,4},{b,4},{c,4},{\[Lambda],4},{k,4}],{i,1,4}]; (* Calculate the B0 curvature term *)
+=======
 BVector[vb_, as_] := Module[{i},
 B =Table[Sum[LeviCivitaTensor[4][[a,b,c,i]]eta[[b,k]]vb[[k,\[Lambda]]]D[inversevb[[\[Lambda],c]],coord[[a]]],{a,4},{b,4},{c,4},{\[Lambda],4},{k,4}],{i,1,4}]; (* Calculate the B0 curvature term *)
+>>>>>>> origin/master
 FullSimplify[B, Assumptions-> as]
 ]
 
@@ -97,8 +103,15 @@ End[];
 
 Begin["`Private`"];
 
+<<<<<<< HEAD
+CalcET[metric_, coord_, printet_, as_] := Module[{affine, riemann, inversemetric, et, scalar,listaffine,listriemann,n,i,j,k,R,ricci,listricci,einstein,listeinstein,output},
+inversemetric = Inverse[metric];
+n=4;
+et = {0,0,0,0,0};
+=======
 CalcET[metric_, coord_, printet_, as_] := Module[{affine, riemann, inversemetric, et, scalar},
 inversemetric = Inverse[metric];
+>>>>>>> origin/master
 affine = Simplify[Table[(1/2)*Sum[(inversemetric[[i,s]])*(D[metric[[s,j]],coord[[k]] ]+D[metric[[s,k]],coord[[j]] ]-D[metric[[j,k]],coord[[s]] ]),{s,1,n}],{i,1,n},{j,1,n},{k,1,n}] ];
 et[[1]] = affine;
 listaffine := Table[If[UnsameQ[affine[[i,j,k]],0],{ToString[\[CapitalGamma][i,j,k]],affine[[i,j,k]]}] ,{i,1,n},{j,1,n},{k,1,j}];
@@ -113,7 +126,11 @@ listricci:=Table[If[UnsameQ[ricci[[j,l]],0],{ToString[R[j,l]],ricci[[j,l]]}] ,{j
 If[printet === 1, Print["Ricci Tensor:"];Print[TableForm[Partition[DeleteCases[Flatten[listricci],Null],2],TableSpacing->{2,2}]];,Null];
 scalar=Simplify[Sum[inversemetric[[i,j]]ricci[[i,j]],{i,1,n},{j,1,n}]];
 et[[4]] = scalar;
+<<<<<<< HEAD
+If[printet === 1, Print["Scalar Curvature, R =", scalar];,Null];
+=======
 Ifprintet === 1, Print["Scalar Curvature, R =", scalar];,Null];
+>>>>>>> origin/master
 einstein:=einstein=Simplify[ricci-(1/2)scalar*metric];
 et[[5]] = einstein;
 listeinstein:=Table[If[UnsameQ[einstein[[j,l]],0],{ToString[G[j,l]],einstein[[j,l]]}] ,{j,1,n},{l,1,j}];
