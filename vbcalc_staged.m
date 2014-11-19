@@ -2,7 +2,7 @@
 
 BeginPackage["VBCalc`"];
 
-version = 0.1;
+version = 0.2;
 
 VB::usage = "VB[metric, coordinates, assumptions] returns a vierbein of a given metric. The metric input must be square and symmetric.";
 BVector::usage = "BVector[vierbein, assumptions] calculates the vector \!\(\*SuperscriptBox[\(B\), \(d\)]\)=\!\(\*SuperscriptBox[\(\[Epsilon]\), \(abcd\)]\)\!\(\*SubscriptBox[\(\[Omega]\), \(bca\)]\), where \!\(\*SubscriptBox[\(\[Omega]\), \(bca\)]\) is the spin connection.";
@@ -56,14 +56,9 @@ End[];
 
 Begin["`Private`"];
 
-<<<<<<< HEAD
 BVector[vb_, coords_, as_] := Module[{i,inversevb},
 inversevb = Inverse[vb];
 B =Table[Sum[LeviCivitaTensor[4][[a,b,c,i]]eta[[b,k]]vb[[k,\[Lambda]]]D[inversevb[[\[Lambda],c]],coords[[a]]],{a,4},{b,4},{c,4},{\[Lambda],4},{k,4}],{i,1,4}]; (* Calculate the B0 curvature term *)
-=======
-BVector[vb_, as_] := Module[{i},
-B =Table[Sum[LeviCivitaTensor[4][[a,b,c,i]]eta[[b,k]]vb[[k,\[Lambda]]]D[inversevb[[\[Lambda],c]],coord[[a]]],{a,4},{b,4},{c,4},{\[Lambda],4},{k,4}],{i,1,4}]; (* Calculate the B0 curvature term *)
->>>>>>> origin/master
 FullSimplify[B, Assumptions-> as]
 ]
 
@@ -103,15 +98,10 @@ End[];
 
 Begin["`Private`"];
 
-<<<<<<< HEAD
 CalcET[metric_, coord_, printet_, as_] := Module[{affine, riemann, inversemetric, et, scalar,listaffine,listriemann,n,i,j,k,R,ricci,listricci,einstein,listeinstein,output},
 inversemetric = Inverse[metric];
 n=4;
 et = {0,0,0,0,0};
-=======
-CalcET[metric_, coord_, printet_, as_] := Module[{affine, riemann, inversemetric, et, scalar},
-inversemetric = Inverse[metric];
->>>>>>> origin/master
 affine = Simplify[Table[(1/2)*Sum[(inversemetric[[i,s]])*(D[metric[[s,j]],coord[[k]] ]+D[metric[[s,k]],coord[[j]] ]-D[metric[[j,k]],coord[[s]] ]),{s,1,n}],{i,1,n},{j,1,n},{k,1,n}] ];
 et[[1]] = affine;
 listaffine := Table[If[UnsameQ[affine[[i,j,k]],0],{ToString[\[CapitalGamma][i,j,k]],affine[[i,j,k]]}] ,{i,1,n},{j,1,n},{k,1,j}];
@@ -126,11 +116,7 @@ listricci:=Table[If[UnsameQ[ricci[[j,l]],0],{ToString[R[j,l]],ricci[[j,l]]}] ,{j
 If[printet === 1, Print["Ricci Tensor:"];Print[TableForm[Partition[DeleteCases[Flatten[listricci],Null],2],TableSpacing->{2,2}]];,Null];
 scalar=Simplify[Sum[inversemetric[[i,j]]ricci[[i,j]],{i,1,n},{j,1,n}]];
 et[[4]] = scalar;
-<<<<<<< HEAD
 If[printet === 1, Print["Scalar Curvature, R =", scalar];,Null];
-=======
-Ifprintet === 1, Print["Scalar Curvature, R =", scalar];,Null];
->>>>>>> origin/master
 einstein:=einstein=Simplify[ricci-(1/2)scalar*metric];
 et[[5]] = einstein;
 listeinstein:=Table[If[UnsameQ[einstein[[j,l]],0],{ToString[G[j,l]],einstein[[j,l]]}] ,{j,1,n},{l,1,j}];
